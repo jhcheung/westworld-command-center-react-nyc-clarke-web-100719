@@ -5,11 +5,12 @@ import { Radio, Icon, Card, Grid, Image, Dropdown, Divider } from 'semantic-ui-r
 
 class HostInfo extends Component {
   state = {
-    options: [
-      {key: "some_area", text: "Some Area", value: "some_area"},
-      {key: "another_area", text: "Another Area", value: "another_area"}
-    ],
-    value: "some_area"
+    options: this.props.areas.map(area => ({
+      key: area.name,
+      text: area.name.replace(/_/g, ' ').replace(/(?: |\b)(\w)/g, function(key) { return key.toUpperCase()}),
+      value: area.name
+    })),
+    value: this.props.host.area
     // This state is just to show how the dropdown component works.
     // Options have to be formatted in this way (array of objects with keys of: key, text, value)
     // Value has to match the value in the object to render the right text.
@@ -20,6 +21,8 @@ class HostInfo extends Component {
 
 
   handleChange = (e, {value}) => {
+    this.setState({ value: value })
+    
     // the 'value' attribute is given via Semantic's Dropdown component.
     // Put a debugger in here and see what the "value" variable is when you pass in different options.
     // See the Semantic docs for more info: https://react.semantic-ui.com/modules/dropdown/#usage-controlled
@@ -30,11 +33,12 @@ class HostInfo extends Component {
   }
 
   render(){
+    const { host } = this.props
     return (
       <Grid>
         <Grid.Column width={6}>
           <Image
-            src={ /* pass in the right image here */ }
+            src={ host.imageUrl }
             floated='left'
             size='small'
             className="hostImg"
@@ -44,16 +48,16 @@ class HostInfo extends Component {
           <Card>
             <Card.Content>
               <Card.Header>
-                {"Bob"} | { true ? <Icon name='man' /> : <Icon name='woman' />}
+                { host.firstName } | { host.gender === "Male" ? <Icon name='man' /> : <Icon name='woman' />}
                 { /* Think about how the above should work to conditionally render the right First Name and the right gender Icon */ }
               </Card.Header>
               <Card.Meta>
                 <Radio
                   onChange={this.toggle}
-                  label={"Active"}
-                  {/* Sometimes the label should take "Decommissioned". How are we going to conditionally render that? */}
-                  checked={true}
-                  {/* Checked takes a boolean and determines what position the switch is in. Should it always be true? */}
+                  label={ host.active ? "Active" : "Decommissioned"}
+                  // {/* Sometimes the label should take "Decommissioned". How are we going to conditionally render that? */}
+                  checked={ host.active ? true : false }
+                  // {/* Checked takes a boolean and determines what position the switch is in. Should it always be true? */}
                   slider
                 />
               </Card.Meta>
