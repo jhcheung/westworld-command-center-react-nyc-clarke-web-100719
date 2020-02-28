@@ -4,7 +4,7 @@ import * as Images from '../services/Images'
 import HostInfo from './HostInfo'
 
 
-const Details = ({ areas, hosts, selectedHostId }) => {
+const Details = ({ areas, hosts, selectedHostId, changeHostActive }) => {
   // We'll render the logo if no host is selected. But if a host does get selected....
   // Watch the video to see how this works in the app.
 
@@ -13,7 +13,9 @@ const Details = ({ areas, hosts, selectedHostId }) => {
   return(
     <Segment id="details" className="HQComps">
       { selectedHostId
-          ? <HostInfo areas={ areas }host={ hosts.find(host => host.id === selectedHostId) }/>
+          ? <HostInfo
+                  changeHostActive={changeHostActive} 
+                  areas={ areas }host={ hosts.find(host => host.id === selectedHostId) }/>
           : renderSomething()}
     </Segment>
   )

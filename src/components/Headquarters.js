@@ -12,7 +12,7 @@ class Headquarters extends Component {
   // Remember, there's many ways to do this. This doesn't have to be a class component. It's up to you.
 
   render(){
-    const { areas, hosts, selectedHostId, changeSelectedHostId } = this.props
+    const { areas, hosts, selectedHostId, changeSelectedHostId, changeHostActive } = this.props
     return(
       <Grid celled='internally'>
         <Grid.Column width={8}>
@@ -26,7 +26,9 @@ class Headquarters extends Component {
         <Grid.Column width={5}>
           <Details hosts={ hosts }
                     areas={ areas }
-                    selectedHostId={ selectedHostId }/>
+                    selectedHostId={ selectedHostId }
+                    changeHostActive = {changeHostActive}
+                    />
         </Grid.Column>
         <Grid.Column width={3}>
 

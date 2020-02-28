@@ -29,11 +29,13 @@ class HostInfo extends Component {
   }
 
   toggle = () => {
+    this.props.changeHostActive(this.props.host.id)
     console.log("The radio button fired");
   }
 
   render(){
     const { host } = this.props
+    console.log(host)
     return (
       <Grid>
         <Grid.Column width={6}>
