@@ -19,12 +19,19 @@ class App extends Component {
     this.setState({ selectedHostId: host })
   }
 
-  changeHostArea = (targetHost, area) => {
-    this.setState({ hosts: this.state.hosts() })
+  changeHostArea = (targetHostId, area) => {
+    this.setState(prevState => ({
+      hosts:  prevState.hosts.map(host => {
+                if (host.id === targetHostId) {
+                  host.area = area
+                }
+                return host
+              })
+
+    }))
   }
 
   changeHostActive = (targetHostId) => {
-    console.log(targetHostId)
     this.setState(prevState => ({
       hosts:  prevState.hosts.map(host => {
                 if (host.id === targetHostId) {

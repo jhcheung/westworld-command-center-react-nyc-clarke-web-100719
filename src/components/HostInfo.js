@@ -9,8 +9,7 @@ class HostInfo extends Component {
       key: area.name,
       text: area.name.replace(/_/g, ' ').replace(/(?: |\b)(\w)/g, function(key) { return key.toUpperCase()}),
       value: area.name
-    })),
-    value: this.props.host.area
+    }))
     // This state is just to show how the dropdown component works.
     // Options have to be formatted in this way (array of objects with keys of: key, text, value)
     // Value has to match the value in the object to render the right text.
@@ -21,7 +20,7 @@ class HostInfo extends Component {
 
 
   handleChange = (e, {value}) => {
-    this.setState({ value: value })
+    this.props.changeHostArea(this.props.host.id, value)
     
     // the 'value' attribute is given via Semantic's Dropdown component.
     // Put a debugger in here and see what the "value" variable is when you pass in different options.
@@ -30,12 +29,13 @@ class HostInfo extends Component {
 
   toggle = () => {
     this.props.changeHostActive(this.props.host.id)
-    console.log("The radio button fired");
+    // console.log("The radio button fired");
   }
 
   render(){
     const { host } = this.props
     console.log(host)
+    console.log(this.state.value)
     return (
       <Grid>
         <Grid.Column width={6}>
@@ -68,7 +68,7 @@ class HostInfo extends Component {
               Current Area:
               <Dropdown
                 onChange={this.handleChange}
-                value={this.state.value}
+                value={host.area}
                 options={this.state.options}
                 selection
               />
