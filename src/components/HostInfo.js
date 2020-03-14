@@ -20,8 +20,13 @@ class HostInfo extends Component {
 
 
   handleChange = (e, {value}) => {
-    this.props.changeHostArea(this.props.host.id, value)
-    
+    let newArea = this.props.areas.find( area => area.name === value)
+    let hostsInArea = this.props.hosts.filter( host => host.area === value)
+    if (newArea.limit < hostsInArea.length + 1) {
+
+    } else {
+      this.props.changeHostArea(this.props.host.id, value)
+    }
     // the 'value' attribute is given via Semantic's Dropdown component.
     // Put a debugger in here and see what the "value" variable is when you pass in different options.
     // See the Semantic docs for more info: https://react.semantic-ui.com/modules/dropdown/#usage-controlled

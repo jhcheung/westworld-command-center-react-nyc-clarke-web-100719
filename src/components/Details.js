@@ -16,7 +16,8 @@ const Details = ({ areas, hosts, selectedHostId, changeHostActive, changeHostAre
           ? <HostInfo
                   changeHostActive={ changeHostActive } 
                   changeHostArea={ changeHostArea }
-                  areas={ areas }host={ hosts.find(host => host.id === selectedHostId) }/>
+                  areas={ areas }
+                  host={ hosts.find(host => host.id === selectedHostId) }/>
           : renderSomething()}
     </Segment>
   )
