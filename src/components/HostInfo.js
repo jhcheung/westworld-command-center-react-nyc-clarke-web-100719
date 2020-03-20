@@ -1,7 +1,7 @@
 import '../stylesheets/HostInfo.css'
 import React, { Component } from 'react'
 import { Radio, Icon, Card, Grid, Image, Dropdown, Divider } from 'semantic-ui-react'
-
+import { Log } from '../services/Log'
 
 class HostInfo extends Component {
   state = {
@@ -20,11 +20,14 @@ class HostInfo extends Component {
 
 
   handleChange = (e, {value}) => {
-    let newArea = this.props.areas.find( area => area.name === value)
-    let hostsInArea = this.props.hosts.filter( host => host.area === value)
+    const newArea = this.props.areas.find( area => area.name === value)
+    const newAreaName = newArea.name.replace(/_/g, ' ').replace(/(?: |\b)(\w)/g, function(key) { return key.toUpperCase()})
+    const hostsInArea = this.props.hosts.filter( host => host.area === value)
+    const host = this.props.host
     if (newArea.limit < hostsInArea.length + 1) {
-
+      this.props.addLog(Log.error(`Too many hosts. Cannot add ${host.firstName} to ${newAreaName}`))
     } else {
+      this.props.addLog(Log.notify(`${host.firstName} set in area ${newAreaName}`))
       this.props.changeHostArea(this.props.host.id, value)
     }
     // the 'value' attribute is given via Semantic's Dropdown component.
@@ -33,6 +36,12 @@ class HostInfo extends Component {
   }
 
   toggle = () => {
+    const { host } = this.props
+    if (host.active) {
+      this.props.addLog(Log.notify(`Decomissioned ${host.firstName}`))
+    } else {
+      this.props.addLog(Log.warn(`Activated ${host.firstName}`))
+    }
     this.props.changeHostActive(this.props.host.id)
     // console.log("The radio button fired");
   }

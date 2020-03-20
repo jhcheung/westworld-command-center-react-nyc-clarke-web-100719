@@ -12,7 +12,9 @@ class App extends Component {
   state = {
     areas: [],
     hosts: [],
-    selectedHostId: null
+    selectedHostId: null,
+    activated: false,
+    logs: []
   }
 
   changeSelectedHostId = (host) => {
@@ -31,6 +33,12 @@ class App extends Component {
     }))
   }
 
+  addLog = (logEvent) => {
+    this.setState(prevState => ({
+      logs: [logEvent, ...prevState.logs]
+    }))
+  }
+
   changeHostActive = (targetHostId) => {
     this.setState(prevState => ({
       hosts:  prevState.hosts.map(host => {
@@ -40,6 +48,16 @@ class App extends Component {
                 return host
               })
 
+    }))
+  }
+
+  toggleActivateAll = () => {
+    this.setState(prevState => ({
+      hosts:  prevState.hosts.map(host => {
+                host.active = !prevState.activated
+                return host
+              }),
+      activated: !prevState.activated
     }))
   }
 
@@ -66,6 +84,10 @@ class App extends Component {
                       changeSelectedHostId={this.changeSelectedHostId}
                       changeHostArea={this.changeHostArea}
                       changeHostActive={this.changeHostActive}
+                      activated={this.state.activated}
+                      toggleActivateAll={this.toggleActivateAll}
+                      addLog={this.addLog}
+                      logs={this.state.logs}
                       />
 
       </Segment>
